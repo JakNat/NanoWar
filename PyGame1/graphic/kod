@@ -1,0 +1,93 @@
+from math import fabs, sqrt
+from Circle import circle
+from circle_interaction import action
+import pygame
+from pygame.math import Vector2
+class Circles_main(object):
+
+    def __init__(self,game):
+        self.game = game
+
+
+        self.kolo = circle(game,200,200,1,"player")
+        self.oponent = circle(game, 1000, 200, 1, "enemy")
+        self.neutral = circle(game,600, 100, 2,"neutral")
+        self.neutra2 = circle(game, 600, 500, 2, "neutral")
+        self.circles = [self.kolo,self.neutral,self.neutra2,self.oponent]
+        self.action = action(self.game,self.kolo, self.neutral)
+
+        #connecting circles
+        self.connectons_array = []
+        self.connectons_array += (self.kolo,self.neutral)
+        self.connectons_array += (self.kolo, self.neutra2)
+        self.connectons_array += (self.oponent, self.neutral)
+        self.connectons_array += (self.oponent,self.neutra2)
+
+
+
+
+
+    def tick(self,game):
+        #input
+       # self.kolo.move(self.neutral)
+
+        """for i in range(len(self.circles)):
+            if (self.circles[i].side == 1):
+                for j in range(len(self.circles)):
+
+                    if(j != i):
+                        if(fabs(j - i) == 1):
+
+                            self.circles[i].move(self.circles[j])"""
+        self.tickets_circles()
+        self.action.tick()
+        self.circles_interactions()
+
+
+        #if(self.kolo.promien() < self.kolo.range):
+    """def connecting(self,circle1,circle2):
+        x = circle1
+        y = circle2
+        zipped = zip(x,y)
+        self.connectons_array += zipped"""
+
+    def action(self,circle1):
+
+        click = pygame.mouse.get_pressed()
+        if(circle1.promien() < circle1.range):
+            if(click[0] == 1):
+                circle1.color = (0,0,0)
+
+        elif (circle1.promien() > circle1.range and circle1.color == (0,0,0)):
+            if (click[0] == 1):
+                circle1.color = circle1.main_color
+
+    def drawingLines(self):
+        for i in range(len(self.connectons_array) ):
+            if (i % 2 == 0):
+                pygame.draw.line(self.game.screen, (0, 0, 0),
+                                 (self.connectons_array[i].pos_x, self.connectons_array[i].pos_y)
+                                 , (self.connectons_array[i + 1].pos_x, self.connectons_array[i + 1].pos_y), 5)
+
+    def circles_interactions(self):
+        for i in range(len(self.connectons_array)):
+            if (i % 2 == 0):
+                self.connectons_array[i].move(self.connectons_array[i + 1])
+                self.connectons_array[i + 1].move(self.connectons_array[i])
+
+    def drawing_circles(self):
+        for i in range(len(self.circles) ):
+            self.circles[i].draw()
+    def tickets_circles(self):
+        for i in range(len(self.circles) ):
+            self.circles[i].tick()
+    def draw(self):
+
+
+        self.drawingLines()
+        self.drawing_circles()
+
+
+
+       # self.bakteria = self.load_texture("graphic//bakteria2.png", int(self.rangeI))
+        #game.screen.blit(self.bakteria, (int(game.screen_weight / 2) - self.state_positionI, int(game.screen_height / 2) - self.state_positionI))
