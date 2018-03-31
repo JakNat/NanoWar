@@ -1,23 +1,41 @@
 from math import fabs, sqrt
 import time
-from circle_interaction import action
+
 import pygame
 from pygame.math import Vector2
 class circle(object):
 
     def __init__(self,game, pos_x, pos_y,type,side):
+        # type - rodzaj koła - od tego zalezy rozmiar oraz szybkoc rozrastania
+
         self.game = game
         self.pos_x = pos_x
         self.pos_y = pos_y
         self.type = type
-        self.range = self.range_type(type)
+        self.range = self.range_type()
         self.color = self.color_type(side)
         self.side = side
         self.main_color = self.color = self.color_type(side)
-        self.animation = False
-        self.real_range = self.range_type(self.type)
+        self.real_range = self.range_type()
+
+    def tick(self):
+        # input
+
+        if (self.side != "neutral"):
+            self.growing()
+        self.action()
+        # fizyka
+        if (self.range < 0.0):
+            self.range = 0.0
+        if (self.range > 300.0):
+            self.range = 350.0
+        self.red = int(255 * (1 - (self.range / 100)))
+
+    def draw(self):
+        pygame.draw.circle(self.game.screen, self.color, (self.pos_x, self.pos_y), int(self.real_range) + 35, 0)
 
 
+############### methods ####################
     def action(self):
 
         click = pygame.mouse.get_pressed()
@@ -51,6 +69,7 @@ class circle(object):
                     else:
                         circle.range += moving_cirle_range
                     self.range -= moving_cirle_range
+
     def move_enemy(self,circle,side):
         moving_cirle_range = self.range/2
         if (circle.side != side):
@@ -74,33 +93,22 @@ class circle(object):
         c = sqrt((a * a) + (b * b))
         return c
 
-    def range_type(self,type):
+    def range_type(self):
 
-        if(type == 1):
-            a = 20
+        if(self.type == 1):
+            a = 25
 
-        elif (type == 2):
+        elif (self.type == 2):
             a = 40
-        elif (type == 3):
+        elif (self.type== 3):
             a = 60
-        elif(type == 4):
+        elif(self.type== 4):
             a = 80
         else:
-            a = type
+            a = self.type
         return a
 
-    def value_type(self, type):
 
-        b = 0
-        if (type == 1):
-
-            b = 10
-        if (type == 2):
-            b = 15
-        if (type == 3):
-
-            b = 20
-        return b
 
     def color_type(self,side):
         if (side == "player"):
@@ -112,17 +120,8 @@ class circle(object):
         if (side == "enemy2"):
             return (155,155,0)
 
-    def tick(self):
-        #input
 
-        if(self.side != "neutral"):
-            self.growing()
-        self.action()
-        # fizyka
-        if(self.range < 0.0):
-            self.range = 0.0
-        if(self.range > 300.0):
-            self.range = 350.0
+
 
 
     def growing(self):
@@ -136,15 +135,4 @@ class circle(object):
             self.range += 1 / 40
         else:
             self.range += 1/100
-
-    """def load_texture(self, file, size):
-        bitmap = pygame.image.load(file)
-        bitmap = pygame.transform.scale(bitmap, (size, size))
-        surface = pygame.Surface((size, size), pygame.HWSURFACE | pygame.SRCALPHA)
-        surface.blit(bitmap, (0, 0))
-        return surface"""
-
-
-    def draw(self):
-        pygame.draw.circle(self.game.screen, self.color,(self.pos_x, self.pos_y), int(self.real_range) + 35, 0)
 

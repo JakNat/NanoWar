@@ -1,10 +1,10 @@
 import pygame
 import sys
-
+import time
 from circles_main import Circles_main
 
 class Game(object):
-    def __init__(self,level):
+    def __init__(self,level,difficulty):
         #config
         pygame.display.set_caption("NanoWar")
         self.tps_max = 60.0
@@ -18,6 +18,8 @@ class Game(object):
 
         ##############  levels  ####################
         self.level = level
+        self.difficulty = difficulty
+       # self.mod = mod
         self.lvl = Circles_main(self)
 
 
@@ -55,17 +57,34 @@ class Game(object):
 
             self.printing_messages()
             self.draw()
-
-
             self.write()
+
+
             a = True
-            for i in range(len(self.lvl.circles) - 1):
+            b = True
+            for i in range(len(self.lvl.circles)):
                 if(self.lvl.circles[i].side != "player"):
                     a = False
                     break
+            for i in range(len(self.lvl.circles)):
+                if(self.lvl.circles[i].side == "player"):
+                    b = False
+                    break
             if(a):
+                time.sleep(5)
+
                 self.level += 1
-              #  sys.exit(0)
+                self.difficulty = difficulty
+                self.lvl = Circles_main(self)
+
+
+
+            if(b):
+                time.sleep(5)
+                self.time = 1
+                self.lvl = Circles_main(self)
+
+
 
             pygame.display.flip()
     def write(self):
@@ -107,8 +126,8 @@ class Game(object):
 if (__name__=="__main__"):
     print("wybierz poziom")
     print("1 - 6")
-    a = int(input())
-    Game(a)
+    #a = int(input())
+    Game(9,"medium")
 
 
 

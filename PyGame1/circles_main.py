@@ -1,9 +1,10 @@
 from math import fabs, sqrt
 from Circle import circle
-from circle_interaction import action
+import random
+
 import pygame
 from pygame.math import Vector2
-
+random.seed()
 class Circles_main(object):
 
  ###############MAIN#######################
@@ -14,13 +15,29 @@ class Circles_main(object):
         y = self.game.screen_height
         _x = int(x/10)
         _y = int(y/10)
+        self.difficulty = 300
 
+        ######################## how difficulty ########################################
+        if(self.game.difficulty == "super easy"):
+            self.difficulty = 800
+        elif (self.game.difficulty == "easy"):
+            self.difficulty = 600
+        elif(self.game.difficulty == "medium"):
+            self.difficulty = 300
+        elif (self.game.difficulty == "hard"):
+            self.difficulty = 150
+        elif(self.game.difficulty == "hardcore"):
+            self.difficulty = 50
+        else:
+            self.difficulty = 350
         ############################ levels  ###########################################
-        # level1
+        # level 1
         if(self.game.level == 1):
             # tworzenie kół(bakterii)
-            self.team1_1 = circle(game, _x, int(y / 2), 3, "player")
+            self.team1_1 = circle(game, _x, int(y / 2), 2, "player")
+
             self.team2_1 = circle(game, int(_x * 9), int(y / 2), 2, "enemy")
+
             self.neutral_1 = circle(game, int(_x * 3), int(_y * 2), 1, "neutral")
             self.neutral_2 = circle(game, int(_x * 3), int(_y * 8), 1, "neutral")
             self.neutral_3 = circle(game, int(_x * 6), int(_y * 2), 1, "neutral")
@@ -114,7 +131,7 @@ class Circles_main(object):
                                      team2_2, neutral_2]
         # level 6
         if(self.game.level == 6):
-            team1_1 = circle(game, _x * 5, _y * 5, 3, "player")
+            team1_1 = circle(game, _x * 5, _y * 5, 4, "player")
 
             neutral_1 = circle(game, _x * 3, _y * 1, 1 , "neutral")
             neutral_2 = circle(game, _x * 3, _y * 3, 1, "neutral")
@@ -145,29 +162,151 @@ class Circles_main(object):
                                       team1_1, neutral_9,team3_1,neutral_9,
                                       team1_1, neutral_10,team3_1,neutral_10 ]
 
+        #level 7
+        if(self.game.level == 7):
+            team1_1 = circle(game, _x * 5, _y * 5, 4, "neutral")
+            team1_2 = circle(game, _x * 1, _y * 5, 4, "player")
+            team1_3 = circle(game, _x * 1, _y * 5, 4, "player")
 
+            neutral_1 = circle(game, _x * 3, _y * 1, 1, "player")
+            neutral_2 = circle(game, _x * 3, _y * 3, 1, "player")
+            neutral_3 = circle(game, _x * 3, _y * 5, 1, "player")
+            neutral_4 = circle(game, _x * 3, _y * 7, 1, "player")
+            neutral_5 = circle(game, _x * 3, _y * 9, 1, "player")
+
+            team2_1 = circle(game, _x, _y * 5, 4, "enemy")
+            team2_2 = circle(game, _x, _y * 5, 4, "enemy")
+            team2_3 = circle(game, _x, _y * 5, 4, "enemy")
+
+            neutral_6 = circle(game, _x * 7, _y * 1, 1, "player")
+            neutral_7 = circle(game, _x * 7, _y * 3, 1, "player")
+            neutral_8 = circle(game, _x * 7, _y * 5, 1, "player")
+            neutral_9 = circle(game, _x * 7, _y * 7, 1, "player")
+            neutral_10 = circle(game, _x * 7, _y * 9, 1, "player")
+
+            team3_1 = circle(game, _x * 9, _y * 5, 4, "enemy2")
+            team3_2 = circle(game, _x * 9, _y * 5, 4, "enemy2")
+            team3_3 = circle(game, _x * 9, _y * 5, 4, "enemy2")
+
+            self.circles = [team1_1, neutral_1, neutral_2, neutral_3, neutral_4, neutral_5
+                , neutral_6, neutral_7, neutral_8, neutral_9, neutral_10, team2_1, team3_1]
+            self.connectons_array = [team1_1, neutral_1, team2_1, neutral_1,
+                                     team1_1, neutral_2, team2_1, neutral_2,
+                                     team1_1, neutral_3, team2_1, neutral_3,
+                                     team1_1, neutral_4, team2_1, neutral_4,
+                                     team1_1, neutral_5, team2_1, neutral_5,
+                                     team1_1, neutral_6, team3_1, neutral_6,
+                                     team1_1, neutral_7, team3_1, neutral_7,
+                                     team1_1, neutral_8, team3_1, neutral_8,
+                                     team1_1, neutral_9, team3_1, neutral_9,
+                                     team1_1, neutral_10, team3_1, neutral_10]
+
+        #level 8
+        if(self.game.level == 8):
+            team1_1 = circle(game, _x * 2, _y * 2, 1, "player")
+            team1_2 = circle(game, _x * 8, _y * 8, 1, "player")
+
+            team1_3 = circle(game, _x * 1, _y * 5, 4, "player")
+
+            neutral_1 = circle(game, _x * 2, _y * 8, 2, "neutral")
+            neutral_2 = circle(game, _x * 8, _y * 2, 2, "neutral")
+
+            neutral_3 = circle(game, _x * 3, _y * 5, 2, "player")
+            neutral_4 = circle(game, _x * 3, _y * 7, 1, "player")
+            neutral_5 = circle(game, _x * 3, _y * 9, 1, "player")
+
+            team2_1 = circle(game, _x * 5, _y * 5, 4, "enemy")
+
+            team2_2 = circle(game, _x, _y * 5, 4, "enemy")
+            team2_3 = circle(game, _x, _y * 5, 4, "enemy")
+
+            neutral_6 = circle(game, _x * 7, _y * 1, 1, "player")
+            neutral_7 = circle(game, _x * 7, _y * 3, 1, "player")
+            neutral_8 = circle(game, _x * 7, _y * 5, 1, "player")
+            neutral_9 = circle(game, _x * 7, _y * 7, 1, "player")
+            neutral_10 = circle(game, _x * 7, _y * 9, 1, "player")
+
+            team3_1 = circle(game, _x * 9, _y * 5, 4, "enemy2")
+            team3_2 = circle(game, _x * 9, _y * 5, 4, "enemy2")
+            team3_3 = circle(game, _x * 9, _y * 5, 4, "enemy2")
+
+            self.circles =[team1_1, team1_2,neutral_1, neutral_2,team2_1]
+
+            self.connectons_array =[team1_1,neutral_1,
+                                    team2_1, neutral_1,
+                                    team2_1, neutral_2,
+                                    team1_1,neutral_2,
+                                    team1_2,neutral_2,
+                                    team1_2,neutral_1
+                                    ]
+        #level 9
+        if(self.game.level == 9):
+            team1_1 = circle(game, _x , _y , 1, "player")
+            team2_1 = circle(game, _x, _y * 9, 1, "enemy")
+            team2_2 = circle(game, _x * 9, _y * 1, 1, "enemy")
+            team3_1 = circle(game, _x * 9, _y * 5, 1, "enemy2")
+
+
+            neutral_1 = circle(game, _x * 1, _y * 5, 1, "neutral")
+            neutral_2 = circle(game, _x * 3, _y * 2, 1, "neutral")
+            neutral_3 = circle(game, _x * 5, _y * 8, 1, "neutral")
+            neutral_4 = circle(game, _x * 5, _y * 5, 3, "neutral")
+
+            neutral_5 = circle(game, _x * 3, _y * 8, 1, "neutral")
+            neutral_6 = circle(game, _x * 3, _y * 5, 1, "neutral")
+
+            neutral_7 = circle(game, _x * 7, _y * 2, 1, "neutral")
+            neutral_8 = circle(game, _x * 7, _y * 5, 1, "neutral")
+            neutral_9 = circle(game, _x * 7, _y * 8, 1, "neutral")
+
+            neutral_10 = circle(game, _x * 5, _y * 1, 1, "neutral")
+
+
+
+            self.circles = [neutral_1, neutral_2, neutral_3, neutral_4, neutral_5,team2_2
+                , neutral_6, neutral_7, neutral_8, neutral_9,team1_1, neutral_10, team2_1, team3_1]
+            self.connectons_array = []
+            if(False):
+                self.connectons_array = [team1_1, neutral_1, team2_1, neutral_1,
+                                         team1_1, neutral_2, team2_1, neutral_2,
+                                         team1_1, neutral_3, team2_1, neutral_3,
+                                         team1_1, neutral_4, team2_1, neutral_4,
+                                         team1_1, neutral_5, team2_1, neutral_5,
+                                         team1_1, neutral_6, team3_1, neutral_6,
+                                         team1_1, neutral_7, team3_1, neutral_7,
+                                         team1_1, neutral_8, team3_1, neutral_8,
+                                         team1_1, neutral_9, team3_1, neutral_9,
+                                         team1_1, neutral_10, team3_1, neutral_10]
+
+
+            else:
+                self.all_connections()
+                self.range = 10
 
         ##############################################################################
-
-
         #Global
-        self.time = 1
-        self.I = None
-        self.actions = 0
-        #### globalna do AI komputera######
-        self.dzielnik = 2
+        self.time = -200
+        self.range = 4
+
+
     def tick(self,game):
         #input
         self.circles_interactions()
         self.tickets_circles()
 
-        if(self.time % 200 == 0):
-            self.enemy_move()
+        if(self.time > 0):
+            if (self.time % self.difficulty == 0):
+                self.enemy_move()
+
+
         self.time += 1
 
 
     def draw(self):
-        self.drawingLines()
+        if (self.game.level <=8):
+            self.drawingLines()
+
+
         self.drawing_circles()
 
 
@@ -214,40 +353,47 @@ class Circles_main(object):
         for i in range(len(self.connectons_array)):
             if (i % 2 == 0):
                 if (self.connectons_array[i].side == "player"):
-                    self.action = action(self,self.connectons_array[i],self.connectons_array[i + 1])
+                   # self.action = action(self,self.connectons_array[i],self.connectons_array[i + 1])
                     self.connectons_array[i].move(self.connectons_array[i+1])
 
                 if (self.connectons_array[i + 1].side == "player"):
                     self.connectons_array[i + 1].move(self.connectons_array[i])
-
+    ##################### AI komputera #########################
     def enemy_move(self):
-        ############# AI komputera ###########
+        dzielnik = 2 * (int(random.randrange(1, 3)))
         for j in range(2):
-
+            #ustalanie który komputer wykonuje ruch
             if(j == 0):
                 side = "enemy"
             if(j == 1):
                 side = "enemy2"
 
+
+
             for i in range(len(self.connectons_array)):
-                if (i % self.dzielnik == 0):
+
+                #losowanie parzystego dzielnika który zostanie uzyty w petli
+                #dieki temu koło ktore ma wiecej połaczen wykona swoj ruch do losowo inngo połaczenia
+
+                b = dzielnik
+                while (b == dzielnik):
+                    dzielnik = 2 * int(random.randrange(1, 4))
+
+                if ((i + 2) % dzielnik == 0 ):
                     circle1 = self.connectons_array[i]
                     circle2 = self.connectons_array[i + 1]
-                    if (circle1.side == side and (circle1.range > 15 or (circle1.range / 2) > circle2.range ) and circle2.side != side):
+                    if (circle1.side == side and (circle1.range > 10 and (circle1.range / 2) > circle2.range ) and circle2.side != side):
                         circle1.move_enemy(circle2, side)
 
-                    elif (circle1.side != side and (circle2.range > 15 or (circle2.range / 2) > circle1.range ) and circle2.side == side):
+                    elif (circle1.side != side and (circle2.range > 10 and (circle2.range / 2) > circle1.range ) and circle2.side == side):
                         circle2.move_enemy(circle1, side)
-                    elif(circle1.side == side and circle2.side and(circle1.range > 15 or circle2.range > 15)):
+                    elif(circle1.side == side and circle2.side and(circle1.range > 10 or circle2.range > 15)):
                         if ( circle1.range > circle2.range):
                             circle1.move_enemy(circle2, side)
+
                         else:
                             circle2.move_enemy(circle1,side)
-                if(self.dzielnik == 2):
-                     a = 4
-                if(self.dzielnik == 4):
-                     a = 2
-                self.dzielnik = a
+
 
 
     """def drawing_animation(self):
@@ -260,7 +406,15 @@ class Circles_main(object):
     def tickets_circles(self):
         for i in range(len(self.circles) ):
             self.circles[i].tick()
+    def all_connections(self):
+        for i in range(len(self.circles)):
+            for j in range(i + 1, len(self.circles)):
 
 
-       # self.bakteria = self.load_texture("graphic//bakteria2.png", int(self.rangeI))
+
+                self.connectons_array.append(self.circles[i])
+                self.connectons_array.append(self.circles[j])
+
+
+                # self.bakteria = self.load_texture("graphic//bakteria2.png", int(self.rangeI))
         #game.screen.blit(self.bakteria, (int(game.screen_weight / 2) - self.state_positionI, int(game.screen_height / 2) - self.state_positionI))
